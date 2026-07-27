@@ -159,8 +159,8 @@ function Landing() {
           </h2>
           <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {STATS.map((stat) => (
-              <div key={stat.label} className="glass rounded-3xl p-6">
-                <dt className="order-2 text-sm text-muted-foreground">{stat.label}</dt>
+              <div key={stat.label} className="glass flex flex-col-reverse rounded-3xl p-6">
+                <dt className="text-sm text-muted-foreground">{stat.label}</dt>
                 <dd className="text-3xl font-bold text-foreground">{stat.value}</dd>
               </div>
             ))}
