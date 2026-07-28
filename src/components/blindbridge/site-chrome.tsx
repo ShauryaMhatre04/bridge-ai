@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { Menu, LogIn, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/lib/auth-context";
 
 const NAV = [
   { to: "/vision", label: "Blind Mode" },
@@ -11,6 +12,7 @@ const NAV = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
@@ -36,12 +38,23 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            to="/vision"
-            className="glass glow hidden rounded-full px-5 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:inline-flex"
-          >
-            Get Started
-          </Link>
+          {user ? (
+            <Link
+              to="/dashboard"
+              className="glass glow hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:inline-flex"
+            >
+              <LayoutDashboard className="size-4" aria-hidden="true" />
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="glass glow hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:inline-flex"
+            >
+              <LogIn className="size-4" aria-hidden="true" />
+              Sign In
+            </Link>
+          )}
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -66,6 +79,23 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          {user ? (
+            <Link
+              to="/dashboard"
+              onClick={() => setOpen(false)}
+              className="block rounded-2xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setOpen(false)}
+              className="block rounded-2xl px-4 py-3 text-base font-medium text-primary hover:bg-secondary"
+            >
+              Sign In
+            </Link>
+          )}
         </nav>
       ) : null}
     </header>
